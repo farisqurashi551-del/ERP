@@ -18,16 +18,16 @@
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   html{font-size:16px;}
+  html,body{direction:rtl;}
   body{margin:0; font-family:system-ui,'Segoe UI',Tahoma,sans-serif; background:var(--paper); color:var(--ink); padding-bottom:calc(88px + env(safe-area-inset-bottom));}
   header{background:var(--ink); color:var(--paper); padding:calc(16px + env(safe-area-inset-top)) 20px 14px; position:sticky; top:0; z-index:9;}
   header .eyebrow{font-size:12px; letter-spacing:2px; color:var(--brass);}
   header h1{font-size:21px; margin:2px 0 0; font-weight:700;}
+  .hicons{position:absolute; inset-inline-end:14px; top:calc(20px + env(safe-area-inset-top)); display:flex; gap:8px;}
+  .hicons button{background:rgba(255,255,255,.08); border:1px solid var(--brass); color:var(--paper); border-radius:10px; width:40px; height:40px; font-size:17px; cursor:pointer;}
   main{padding:14px; width:100%; margin:0 auto;}
   .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:15px; margin-bottom:12px;}
   .accent-brass{border-inline-start:4px solid var(--brass);}
-  .accent-green{border-inline-start:4px solid var(--green);}
-  .accent-red{border-inline-start:4px solid var(--red);}
-  .accent-muted{border-inline-start:4px solid var(--muted);}
   .stats{display:flex; gap:8px;}
   .stat{flex:1; text-align:center;}
   .stat .lbl{font-size:11px; color:var(--muted); margin-bottom:4px;}
@@ -41,10 +41,12 @@
   .row .t1{font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .row .t2{font-size:11px; color:var(--muted);}
   .row .amt{font-weight:700; font-size:14px; font-variant-numeric:tabular-nums;}
-  .row .del{background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer;}
+  .icbtn{background:none; border:none; cursor:pointer; font-size:16px; color:var(--ink2); padding:4px;}
   .btn{width:100%; padding:14px; border-radius:10px; border:none; background:var(--ink); color:var(--paper); font-weight:700; font-size:16px; cursor:pointer; margin-bottom:12px; font-family:inherit;}
-  .btn-sm{flex:1; padding:11px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit;}
-  input,select{width:100%; padding:12px; border-radius:8px; border:1px solid var(--line); margin-bottom:9px; font-size:16px; font-family:inherit; background:#FCFAF5; appearance:none;}
+  .btn-sm{flex:1; padding:11px; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit; border:1px solid var(--line); background:#fff;}
+  input,select{width:100%; padding:12px; border-radius:8px; border:1px solid var(--line); margin-bottom:9px; font-size:16px; font-family:inherit; background:#FCFAF5; appearance:none; direction:rtl; text-align:right;}
+  input::placeholder{text-align:right;}
+  input[type=number],input[type=date],input[type=datetime-local]{direction:ltr; text-align:right;}
   .seg{display:flex; gap:8px; margin-bottom:10px;}
   .seg button{flex:1; padding:12px; border-radius:8px; border:2px solid var(--line); background:#fff; color:var(--ink); font-weight:700; font-size:15px; cursor:pointer; font-family:inherit;}
   .seg button.on-out{border-color:var(--red); background:var(--red); color:#fff;}
@@ -52,9 +54,9 @@
   .muted{color:var(--muted); font-size:13px;}
   .empty{color:var(--muted); font-size:13px; text-align:center; padding:12px;}
   nav{position:fixed; bottom:0; inset-inline:0; background:var(--ink); display:flex; justify-content:space-around; padding:10px 0 calc(12px + env(safe-area-inset-bottom)); border-top:2px solid var(--brass); z-index:10;}
-  nav button{background:none; border:none; color:#9FB0B8; font-size:11px; display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; font-family:inherit; padding:2px 4px; min-width:44px;}
+  nav button{background:none; border:none; color:#9FB0B8; font-size:10px; display:flex; flex-direction:column; align-items:center; gap:3px; cursor:pointer; font-family:inherit; padding:2px 3px; min-width:40px;}
   nav button.active{color:var(--brass); font-weight:700;}
-  nav button .ic{font-size:19px;}
+  nav button .ic{font-size:18px;}
   .bar-wrap{height:8px; background:var(--line); border-radius:99px;}
   .bar{height:100%; border-radius:99px;}
   .brk-row{display:flex; justify-content:space-between; font-size:12px; margin-bottom:3px;}
@@ -65,315 +67,750 @@
   .chart .m{font-size:9px; color:var(--muted);}
   .legend{display:flex; gap:14px; margin-top:10px; font-size:11px; color:var(--muted); align-items:center;}
   .sw{display:inline-block; width:8px; height:8px; border-radius:2px; margin-inline-end:4px;}
-  .hidden{display:none;}
   .flexrow{display:flex; gap:8px; margin-top:10px;}
   .green{color:var(--green);} .red{color:var(--red);} .brassc{color:var(--brass);}
+  /* الأهداف */
+  .yearnav{display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:12px;}
+  .yearnav button{background:var(--ink); color:var(--paper); border:none; border-radius:8px; width:38px; height:38px; font-size:18px; cursor:pointer;}
+  .yearnav .yt{font-size:17px; font-weight:700;}
+  .goal{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:10px; overflow:hidden;}
+  .goal.hiddenit{opacity:.45;}
+  .goal.doneit .ttl{text-decoration:line-through; color:var(--green);}
+  .prices{display:flex; gap:8px;}
+  .price{flex:1; text-align:center; background:#FCFAF5; border:1px solid var(--line); border-radius:10px; padding:10px 4px;}
+  .price .pv{font-weight:700; font-size:15px; font-variant-numeric:tabular-nums;}
+  .price .pl{font-size:10px; color:var(--muted); margin-top:2px;}
+  .thumbs{display:flex; flex-wrap:wrap; gap:6px; padding:4px 0;}
+  .thumb{width:64px; height:64px; object-fit:cover; border-radius:8px; border:1px solid var(--line); cursor:pointer;}
+  button.thumb{background:#fff; font-size:22px; color:var(--muted); display:flex; align-items:center; justify-content:center; border-style:dashed; font-family:inherit;}
+  .g-head{display:flex; align-items:center; gap:4px; padding:8px 10px;}
+  .g-head .ttl{flex:1; border:none; background:none; font-size:15px; font-weight:700; padding:6px 2px; margin:0; font-family:inherit;}
+  .g-head .ttl:focus{outline:none; border-bottom:2px solid var(--brass);}
+  .ordcol{display:flex; flex-direction:column; gap:0;}
+  .ordcol button{background:none; border:none; font-size:11px; color:var(--muted); cursor:pointer; padding:1px 4px; line-height:1;}
+  .g-sub{padding:0 12px 10px; border-top:1px dashed var(--line);}
+  .task{border-inline-start:3px solid var(--brass); background:#FCFAF5; border-radius:8px; margin-top:8px; padding:6px 8px;}
+  .task.hiddenit{opacity:.45;}
+  .t-head{display:flex; align-items:center; gap:4px;}
+  .t-head .ttl{flex:1; border:none; background:none; font-size:14px; font-weight:600; padding:4px 2px; margin:0; font-family:inherit;}
+  .t-head .ttl:focus{outline:none; border-bottom:2px solid var(--brass);}
+  .step{display:flex; align-items:center; gap:8px; padding:4px 0; font-size:13px;}
+  .step input[type=checkbox]{width:auto; margin:0;}
+  .step .ttl{flex:1; border:none; background:none; font-size:13px; padding:3px 2px; margin:0; font-family:inherit;}
+  .step.done .ttl{text-decoration:line-through; color:var(--muted);}
+  .meta-line{font-size:11px; color:var(--muted); padding:0 12px 8px; display:flex; gap:12px; flex-wrap:wrap;}
+  .addline{display:flex; gap:6px; margin-top:8px;}
+  .addline input{margin-bottom:0; padding:9px; font-size:14px;}
+  .addline button{border:none; background:var(--ink); color:#fff; border-radius:8px; padding:0 14px; font-family:inherit; font-weight:700; cursor:pointer;}
+  /* الخريطة الذهنية */
+  .mm-root{background:var(--ink); color:var(--paper); border:2px solid var(--brass); border-radius:12px; padding:12px 16px; font-weight:700; text-align:center; margin-bottom:4px;}
+  .mm-branch{margin-inline-start:14px; border-inline-start:2px solid var(--brass); padding-inline-start:14px; padding-top:10px;}
+  .mm-goal{background:var(--card); border:1.5px solid var(--brass); border-radius:10px; padding:10px 12px; font-weight:700; font-size:14px; cursor:pointer; position:relative;}
+  .mm-goal::before, .mm-task::before{content:""; position:absolute; inset-inline-start:-16px; top:50%; width:14px; height:2px; background:var(--brass);}
+  .mm-tasks{margin-inline-start:12px; border-inline-start:2px solid var(--line); padding-inline-start:14px; padding-top:8px;}
+  .mm-task{background:#FCFAF5; border:1px solid var(--line); border-radius:8px; padding:7px 10px; font-size:13px; margin-bottom:8px; cursor:pointer; position:relative;}
+  .mm-task::before{background:var(--line);}
+  .mm-wrap{margin-bottom:14px;}
+  .overlay{position:fixed; inset:0; background:rgba(28,43,51,.55); z-index:20; display:flex; align-items:center; justify-content:center; padding:20px;}
+  .overlay .card{width:100%; max-width:420px; margin:0;}
+  /* التقويم */
+  .cal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .cal-head button{background:var(--ink); color:var(--paper); border:none; border-radius:8px; width:36px; height:36px; font-size:16px; cursor:pointer;}
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+  .cal-dh{text-align:center; font-size:10px; color:var(--muted); padding:4px 0; font-weight:700;}
+  .cal-d{aspect-ratio:1; border:1px solid var(--line); border-radius:8px; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; font-size:13px; cursor:pointer; padding:2px;}
+  .cal-d.off{background:transparent; border:none; cursor:default;}
+  .cal-d.today{border:2px solid var(--brass); font-weight:700;}
+  .cal-d.sel{background:var(--ink); color:#fff;}
+  .cal-dots{display:flex; gap:2px;}
+  .cal-dots span{width:5px; height:5px; border-radius:99px; display:block;}
+  .toast{position:fixed; top:calc(10px + env(safe-area-inset-top)); inset-inline:14px; background:var(--brass); color:var(--ink); font-weight:700; padding:12px 14px; border-radius:10px; z-index:30; box-shadow:0 4px 14px rgba(0,0,0,.25); font-size:14px;}
+  .hidden{display:none;}
 </style>
 </head>
 <body>
 <header>
   <div class="eyebrow">نظام الإدارة الشخصي</div>
   <h1 id="pageTitle">لوحة المعلومات</h1>
+  <div class="hicons">
+    <button title="جميع الأصول" onclick="go('assets')">🏛</button>
+    <button title="الديون" onclick="go('debts')">🧾</button>
+  </div>
 </header>
 <main id="main"></main>
 <nav id="nav"></nav>
+<div id="toastBox"></div>
+<input type="file" id="imgIn" accept="image/*" class="hidden">
 
 <script>
 "use strict";
-// ─── البيانات ───
 const KEY = "erp-data-v1";
-const CATS_EXP = ["مصاريف منزل","سيارة ووقود","مشتريات","المتحف","فواتير خدمات","أخرى"];
-const CATS_INC_BASE = ["راتب","أعمال جانبية","المتحف"];
+const DEF_EXP = ["مصاريف منزل","سيارة ووقود","مشتريات","المتحف","فواتير خدمات","أخرى"];
+const DEF_INC = ["راتب","أعمال جانبية","المتحف","أخرى"];
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const DAYS = ["أحد","إثن","ثلا","أرب","خمي","جمع","سبت"];
 
-let D = { tx: [], inv: [], incCats: [], projects: [] };
+let D = { tx:[], incCats:[], projects:[], goals:{}, commit:[], expList:null, incList:null, fired:[], recur:[], prices:null };
 try { const s = localStorage.getItem(KEY); if (s) D = Object.assign(D, JSON.parse(s)); } catch(e){}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(D)); }catch(e){ alert("تعذر الحفظ — تأكد من مساحة التخزين"); } }
+// ترحيل الفئات لقوائم قابلة للتعديل
+if(!Array.isArray(D.expList)) D.expList = [...DEF_EXP];
+if(!Array.isArray(D.incList)) D.incList = [...DEF_INC.filter(c=>c!=="أخرى"), ...(D.incCats||[]), "أخرى"];
+if(!D.goals) D.goals = {};
+if(!Array.isArray(D.commit)) D.commit = [];
+if(!Array.isArray(D.fired)) D.fired = [];
+if(!Array.isArray(D.recur)) D.recur = [];
+if(!Array.isArray(D.assets)) D.assets = [];
+if(!Array.isArray(D.debts)) D.debts = [];
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(D)); return true; }catch(e){ toast("تعذر الحفظ — مساحة التخزين ممتلئة"); return false; } }
 
-let tab = "dash";
-let txFormOpen = false, invFormOpen = false;
-let txType = "out";
+let tab="dash", txFormOpen=false, txType="out", cmType="out";
+const NOW = new Date();
+let goalsYear = NOW.getFullYear();
+let goalsView = "list";
+let calY = NOW.getFullYear(), calM = NOW.getMonth();
+let calSel = null, cmFormOpen = false, mapDetail = null, goalPage = null, recOpen = false, recType = "out", imgTarget = null, imgView = null;
 
 const fmt = n => new Intl.NumberFormat("en-US",{maximumFractionDigits:2}).format(n||0);
 const today = () => new Date().toISOString().slice(0,10);
 const esc = s => String(s??"").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const curKey = () => { const n=new Date(); return n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0"); };
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const curKey = () => NOW.getFullYear()+"-"+String(NOW.getMonth()+1).padStart(2,"0");
+const fmtDT = s => { if(!s) return ""; const d=new Date(s); return d.toLocaleDateString("ar-SA-u-nu-latn")+" "+d.toLocaleTimeString("ar-SA-u-nu-latn",{hour:"2-digit",minute:"2-digit"}); };
 
 function incomeCats(){
   const active = D.projects.filter(p=>p.status==="active").map(p=>"مشروع: "+p.name);
-  return [...CATS_INC_BASE, ...D.incCats, ...active, "أخرى"];
+  return [...D.incList, ...active];
 }
+function toast(msg){
+  const b=document.getElementById("toastBox");
+  b.innerHTML = '<div class="toast">'+esc(msg)+'</div>';
+  setTimeout(()=>{ b.innerHTML=""; }, 4000);
+}
+
+// ─── المنبهات ───
+async function askNotif(){
+  if(!("Notification" in window)) return false;
+  if(Notification.permission==="default"){ try{ await Notification.requestPermission(); }catch(e){} }
+  return Notification.permission==="granted";
+}
+function pushNotif(title, body){
+  if("Notification" in window && Notification.permission==="granted"){
+    if(navigator.serviceWorker){ navigator.serviceWorker.getRegistration().then(r=>{ if(r) r.showNotification(title,{body, icon:"icon-192.png", dir:"rtl", lang:"ar"}); else new Notification(title,{body}); }).catch(()=>{ try{ new Notification(title,{body}); }catch(e){} }); }
+    else { try{ new Notification(title,{body}); }catch(e){} }
+  }
+}
+function allReminders(){
+  const out=[];
+  D.commit.forEach(c=>{ if(c.remind) out.push({id:c.id, remind:c.remind, label:"التزام: "+c.title}); });
+  Object.values(D.goals).forEach(arr=>arr.forEach(g=>{
+    if(g.remind) out.push({id:g.id, remind:g.remind, label:"هدف: "+(g.title||"بدون عنوان")});
+    (g.tasks||[]).forEach(t=>{ if(t.remind) out.push({id:t.id, remind:t.remind, label:"مهمة: "+(t.title||"بدون عنوان")}); });
+  }));
+  return out;
+}
+function checkReminders(){
+  const now = Date.now();
+  let changed=false;
+  allReminders().forEach(r=>{
+    const tag = r.id+"@"+r.remind;
+    if(new Date(r.remind).getTime() <= now && !D.fired.includes(tag)){
+      D.fired.push(tag); changed=true;
+      pushNotif("تذكير", r.label);
+      toast("⏰ "+r.label);
+    }
+  });
+  if(changed) save();
+}
+setInterval(checkReminders, 30000);
 
 // ─── التنقل ───
 const TABS = [
   ["dash","اللوحة","◧","لوحة المعلومات"],
   ["tx","الحركات","⇄","الحركات المالية"],
-  ["inv","الفواتير","▤","الفواتير"],
-  ["cats","الفئات","❖","فئات الدخل"],
+  ["cal","التقويم","▦","التقويم المالي"],
+  ["goals","الأهداف","◎","أهداف العام"],
+  ["cats","الفئات","❖","إدارة الفئات"],
   ["proj","المشاريع","◈","المشاريع المستقبلية"],
-  ["rep","التقارير","▦","التقارير"],
+  ["rep","التقارير","▤","التقارير"],
 ];
 function renderNav(){
-  document.getElementById("nav").innerHTML = TABS.map(([k,l,ic]) =>
-    `<button class="${tab===k?'active':''}" onclick="go('${k}')"><span class="ic">${ic}</span>${l}</button>`).join("");
+  const n = document.getElementById("nav");
+  if(tab==="goals"){
+    n.innerHTML =
+      '<button onclick="go(\'dash\')"><span class="ic">◀</span>رجوع</button>'+
+      '<button class="'+(goalsView==="list"?"active":"")+'" onclick="goalsView=\'list\';render()"><span class="ic">≡</span>الأساسية</button>'+
+      '<button class="'+(goalsView==="map"?"active":"")+'" onclick="goalsView=\'map\';render()"><span class="ic">☍</span>الخريطة</button>';
+    return;
+  }
+  n.innerHTML = TABS.map(([k,l,ic]) =>
+    '<button class="'+(tab===k?"active":"")+'" onclick="go(\''+k+'\')"><span class="ic">'+ic+'</span>'+l+'</button>').join("");
 }
-function go(k){ tab=k; txFormOpen=false; invFormOpen=false; render(); }
+function go(k){ tab=k; txFormOpen=false; cmFormOpen=false; mapDetail=null; goalPage=null; recOpen=false; render(); }
 
 // ─── العرض ───
 function render(){
   renderNav();
-  document.getElementById("pageTitle").textContent = TABS.find(t=>t[0]===tab)[3];
+  const t = TABS.find(t=>t[0]===tab) || TABS[0];
+  document.getElementById("pageTitle").textContent = tab==="goals" ? ("أهداف العام "+goalsYear) : tab==="assets" ? "جميع الأصول" : tab==="debts" ? "الديون" : t[3];
   const m = document.getElementById("main");
-  if(tab==="dash") m.innerHTML = vDash();
+  if(tab==="dash"){ m.innerHTML = vDash(); refreshPrices(false); }
+  if(tab==="assets") m.innerHTML = vAssets();
+  if(tab==="debts") m.innerHTML = vDebts();
   if(tab==="tx") m.innerHTML = vTx();
-  if(tab==="inv") m.innerHTML = vInv();
+  if(tab==="cal") m.innerHTML = vCal();
+  if(tab==="goals") m.innerHTML = goalsView==="map" ? vMap() : (goalPage ? vGoalPage() : vGoals());
   if(tab==="cats") m.innerHTML = vCats();
   if(tab==="proj") m.innerHTML = vProj();
   if(tab==="rep") m.innerHTML = vRep();
+  if(imgView) m.innerHTML += viewerHtml();
   window.scrollTo(0,0);
 }
 
 function rowHtml(t, del){
   const col = t.type==="in" ? "var(--green)" : "var(--red)";
   const sign = t.type==="in" ? "+" : "−";
-  return `<div class="row">
-    <div class="dot" style="background:${col}"></div>
-    <div class="info"><div class="t1">${esc(t.note||t.cat)}</div><div class="t2">${esc(t.cat)} · ${esc(t.date)}</div></div>
-    <div class="amt" style="color:${col}">${sign}${fmt(t.amount)}</div>
-    ${del?`<button class="del" onclick="delTx('${t.id}')">✕</button>`:""}
-  </div>`;
+  return '<div class="row"><div class="dot" style="background:'+col+'"></div>'+
+    '<div class="info"><div class="t1">'+esc(t.note||t.cat)+'</div><div class="t2">'+esc(t.cat)+' · '+esc(t.date)+'</div></div>'+
+    '<div class="amt" style="color:'+col+'">'+sign+fmt(t.amount)+'</div>'+
+    (del?'<button class="icbtn" onclick="delTx(\''+t.id+'\')">✕</button>':"")+'</div>';
 }
 
+// ─── اللوحة ───
+async function refreshPrices(force){
+  const stale = !D.prices || (Date.now()-D.prices.t > 15*60*1000);
+  if(!force && !stale){ paintPrices(); return; }
+  try{
+    const [er, xau, xag] = await Promise.all([
+      fetch("https://open.er-api.com/v6/latest/USD").then(r=>r.json()),
+      fetch("https://api.gold-api.com/price/XAU").then(r=>r.json()),
+      fetch("https://api.gold-api.com/price/XAG").then(r=>r.json()),
+    ]);
+    const sar = er.rates && er.rates.SAR;
+    if(sar && xau.price && xag.price){
+      D.prices = { t:Date.now(), usdsar:sar, goldG:(xau.price/31.1035)*sar, silverG:(xag.price/31.1035)*sar };
+      save();
+    }
+  }catch(e){}
+  paintPrices();
+}
+function paintPrices(){
+  const el = document.getElementById("priceCard"); if(!el) return;
+  if(!D.prices){ el.innerHTML = '<div class="muted">تعذر جلب الأسعار — تحقق من الإنترنت ثم اضغط ↻</div>'; return; }
+  const p = D.prices;
+  el.innerHTML = '<div class="prices">'+
+    '<div class="price"><div class="pv brassc">'+fmt(p.goldG)+'</div><div class="pl">ذهب / جرام (ر.س)</div></div>'+
+    '<div class="price"><div class="pv">'+fmt(p.silverG)+'</div><div class="pl">فضة / جرام (ر.س)</div></div>'+
+    '<div class="price"><div class="pv green">'+p.usdsar.toFixed(2)+'</div><div class="pl">دولار / ريال</div></div>'+
+    '</div><div class="muted" style="font-size:10px;margin-top:6px">آخر تحديث: '+fmtDT(new Date(p.t).toISOString())+'</div>';
+}
 function vDash(){
   const ck = curKey();
   let inc=0, exp=0;
   D.tx.forEach(t=>{ if((t.date||"").startsWith(ck)){ t.type==="in"?inc+=+t.amount:exp+=+t.amount; }});
   const net = inc-exp;
-  const unpaid = D.inv.filter(i=>i.status==="unpaid");
-  const unpaidSum = unpaid.reduce((s,i)=>s+ +i.amount,0);
+  const upcoming = D.commit.filter(c=>c.date>=today()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
   const recent = [...D.tx].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
-  return `
-  <div class="card">
-    <div class="sec-title brassc">شهر ${MONTHS[new Date().getMonth()]}</div>
-    <div class="stats">
-      <div class="stat"><div class="lbl">الدخل</div><div class="val green">${fmt(inc)}</div><div class="cur">ر.س</div></div>
-      <div class="vline"></div>
-      <div class="stat"><div class="lbl">المصروف</div><div class="val red">${fmt(exp)}</div><div class="cur">ر.س</div></div>
-      <div class="vline"></div>
-      <div class="stat"><div class="lbl">الصافي</div><div class="val ${net>=0?'green':'red'}">${fmt(net)}</div><div class="cur">ر.س</div></div>
-    </div>
-  </div>
-  ${unpaid.length?`<div class="card accent-brass"><div style="font-size:14px">لديك <b>${unpaid.length}</b> فاتورة غير مسددة بإجمالي <b>${fmt(unpaidSum)} ر.س</b></div></div>`:""}
-  <div class="card">
-    <div class="sec-title">آخر الحركات</div>
-    ${recent.length? recent.map(t=>rowHtml(t,false)).join("") : `<div class="muted">لا توجد حركات بعد — أضف أول حركة من تبويب «الحركات».</div>`}
-  </div>`;
+  return '<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="sec-title" style="margin:0">الأسعار المباشرة</div><button class="icbtn" onclick="refreshPrices(true)">↻</button></div><div id="priceCard"><div class="muted">جارٍ جلب الأسعار…</div></div></div>'+
+  '<div class="card"><div class="sec-title brassc">شهر '+MONTHS[NOW.getMonth()]+'</div><div class="stats">'+
+    '<div class="stat"><div class="lbl">الدخل</div><div class="val green">'+fmt(inc)+'</div><div class="cur">ر.س</div></div><div class="vline"></div>'+
+    '<div class="stat"><div class="lbl">المصروف</div><div class="val red">'+fmt(exp)+'</div><div class="cur">ر.س</div></div><div class="vline"></div>'+
+    '<div class="stat"><div class="lbl">الصافي</div><div class="val '+(net>=0?"green":"red")+'">'+fmt(net)+'</div><div class="cur">ر.س</div></div></div></div>'+
+    (upcoming.length? '<div class="card accent-brass"><div class="sec-title">الالتزامات القادمة</div>'+upcoming.map(c=>
+      '<div class="row"><div class="dot" style="background:'+(c.type==="in"?"var(--green)":"var(--red)")+'"></div><div class="info"><div class="t1">'+esc(c.title)+'</div><div class="t2">'+esc(c.date)+(c.remind?' · ⏰':'')+'</div></div><div class="amt">'+fmt(c.amount)+'</div></div>').join("")+'</div>' : "")+
+    '<div class="card"><div class="sec-title">آخر الحركات</div>'+
+    (recent.length? recent.map(t=>rowHtml(t,false)).join("") : '<div class="muted">لا توجد حركات بعد.</div>')+'</div>';
 }
 
 // ─── الحركات ───
+function applyRecur(){
+  const t = new Date();
+  const cy = t.getFullYear(), cm = t.getMonth(), cd = t.getDate();
+  let added = 0;
+  D.recur.forEach(r=>{
+    r.applied = r.applied || [];
+    const start = new Date(r.start+"-01T00:00:00");
+    let y = start.getFullYear(), m = start.getMonth();
+    while(y < cy || (y===cy && m<=cm)){
+      const key = y+"-"+String(m+1).padStart(2,"0");
+      const dim = new Date(y, m+1, 0).getDate();
+      const day = Math.min(r.day, dim);
+      const due = (y<cy) || (m<cm) || (day<=cd);
+      if(!r.applied.includes(key) && due){
+        const ds = key+"-"+String(day).padStart(2,"0");
+        D.tx.unshift({ id:uid(), type:r.type, amount:+r.amount, cat:r.cat, date:ds, note:r.note+" (ثابت شهري)" });
+        r.applied.push(key); added++;
+      }
+      m++; if(m>11){ m=0; y++; }
+    }
+  });
+  if(added){ save(); toast("أُضيفت "+added+" حركة ثابتة تلقائيًا"); }
+}
+function vRecur(){
+  const cats = recType==="in" ? incomeCats() : D.expList;
+  return '<div class="card accent-brass"><div class="sec-title">الثوابت الشهرية (راتب، إيجار...)</div>'+
+    (D.recur.length? D.recur.map(r=>'<div class="row"><div class="dot" style="background:'+(r.type==="in"?"var(--green)":"var(--red)")+'"></div>'+
+      '<div class="info"><div class="t1">'+esc(r.note)+'</div><div class="t2">'+esc(r.cat)+' · يوم '+r.day+' من كل شهر</div></div>'+
+      '<div class="amt">'+fmt(r.amount)+'</div>'+
+      '<button class="icbtn" onclick="delRec(\''+r.id+'\')">✕</button></div>').join("") : '<div class="muted">لا توجد ثوابت — أضف راتبك أو إيجارك وسيُسجَّل تلقائيًا كل شهر في اليوم الذي تحدده.</div>')+
+    '<div style="margin-top:10px"><div class="seg">'+
+    '<button class="'+(recType==="out"?"on-out":"")+'" onclick="recType=\'out\';render()">مصروف ثابت</button>'+
+    '<button class="'+(recType==="in"?"on-in":"")+'" onclick="recType=\'in\';render()">دخل ثابت</button></div>'+
+    '<input id="recNote" placeholder="الوصف (مثال: الراتب، إيجار المنزل)">'+
+    '<input id="recAmt" type="number" inputmode="decimal" placeholder="المبلغ (ر.س)">'+
+    '<select id="recCat">'+cats.map(c=>'<option>'+esc(c)+'</option>').join("")+'</select>'+
+    '<label style="font-size:11px;color:var(--muted)">يوم الشهر (1 إلى 31)</label>'+
+    '<input id="recDay" type="number" inputmode="numeric" min="1" max="31" placeholder="مثال: 27">'+
+    '<button class="btn" style="margin-bottom:0" onclick="addRec()">حفظ الثابت</button></div></div>';
+}
+function addRec(){
+  const note = document.getElementById("recNote").value.trim();
+  const amt = +document.getElementById("recAmt").value;
+  let day = Math.round(+document.getElementById("recDay").value);
+  if(!note || !amt || amt<=0 || !day || day<1 || day>31) return;
+  const t = new Date();
+  const r = { id:uid(), type:recType, amount:amt, cat:document.getElementById("recCat").value, note, day, start: t.getFullYear()+"-"+String(t.getMonth()+1).padStart(2,"0"), applied:[] };
+  if(day < t.getDate()) r.applied.push(r.start);
+  D.recur.push(r); save(); applyRecur(); render();
+}
+function delRec(id){ D.recur = D.recur.filter(r=>r.id!==id); save(); render(); }
 function vTx(){
-  const cats = txType==="in" ? incomeCats() : CATS_EXP;
+  const cats = txType==="in" ? incomeCats() : D.expList;
   const sorted = [...D.tx].sort((a,b)=>b.date.localeCompare(a.date));
-  return `
-  <button class="btn" onclick="txFormOpen=!txFormOpen;render()">${txFormOpen?"إغلاق":"＋ حركة جديدة"}</button>
-  ${txFormOpen?`
-  <div class="card">
-    <div class="seg">
-      <button class="${txType==='out'?'on-out':''}" onclick="txType='out';render()">مصروف</button>
-      <button class="${txType==='in'?'on-in':''}" onclick="txType='in';render()">دخل</button>
-    </div>
-    <input id="txAmt" type="number" inputmode="decimal" placeholder="المبلغ (ر.س)">
-    <select id="txCat">${cats.map(c=>`<option>${esc(c)}</option>`).join("")}</select>
-    <input id="txDate" type="date" value="${today()}">
-    <input id="txNote" placeholder="ملاحظة (اختياري)">
-    <button class="btn" style="margin-bottom:0" onclick="addTx()">حفظ الحركة</button>
-  </div>`:""}
-  <div class="card">
-    ${sorted.length? sorted.map(t=>rowHtml(t,true)).join("") : `<div class="empty">السجل فارغ — أضف أول حركة.</div>`}
-  </div>`;
+  return '<button class="btn" onclick="txFormOpen=!txFormOpen;render()">'+(txFormOpen?"إغلاق":"＋ حركة جديدة")+'</button>'+
+  '<button class="btn" style="background:#fff;color:var(--ink);border:1px solid var(--line)" onclick="recOpen=!recOpen;render()">'+(recOpen?"إخفاء الثوابت الشهرية":"⚙ الثوابت الشهرية (راتب، إيجار...)")+'</button>'+
+  (recOpen? vRecur() : "")+
+  (txFormOpen? '<div class="card"><div class="seg">'+
+    '<button class="'+(txType==="out"?"on-out":"")+'" onclick="txType=\'out\';render()">مصروف</button>'+
+    '<button class="'+(txType==="in"?"on-in":"")+'" onclick="txType=\'in\';render()">دخل</button></div>'+
+    '<input id="txAmt" type="number" inputmode="decimal" placeholder="المبلغ (ر.س)">'+
+    '<select id="txCat">'+cats.map(c=>'<option>'+esc(c)+'</option>').join("")+'</select>'+
+    '<input id="txDate" type="date" value="'+today()+'">'+
+    '<input id="txNote" placeholder="ملاحظة (اختياري)">'+
+    '<button class="btn" style="margin-bottom:0" onclick="addTx()">حفظ الحركة</button></div>' : "")+
+  '<div class="card">'+(sorted.length? sorted.map(t=>rowHtml(t,true)).join("") : '<div class="empty">السجل فارغ.</div>')+'</div>';
 }
 function addTx(){
   const amt = +document.getElementById("txAmt").value;
   if(!amt || amt<=0) return;
-  D.tx.unshift({
-    id: Date.now()+"", type: txType, amount: amt,
-    cat: document.getElementById("txCat").value,
-    date: document.getElementById("txDate").value || today(),
-    note: document.getElementById("txNote").value.trim(),
-  });
+  D.tx.unshift({ id:uid(), type:txType, amount:amt, cat:document.getElementById("txCat").value, date:document.getElementById("txDate").value||today(), note:document.getElementById("txNote").value.trim() });
   save(); txFormOpen=false; render();
 }
 function delTx(id){ D.tx = D.tx.filter(t=>t.id!==id); save(); render(); }
 
-// ─── الفواتير ───
-function vInv(){
-  return `
-  <button class="btn" onclick="invFormOpen=!invFormOpen;render()">${invFormOpen?"إغلاق":"＋ فاتورة جديدة"}</button>
-  ${invFormOpen?`
-  <div class="card">
-    <input id="ivClient" placeholder="اسم العميل / الجهة">
-    <input id="ivDesc" placeholder="الوصف">
-    <input id="ivAmt" type="number" inputmode="decimal" placeholder="المبلغ (ر.س)">
-    <label style="font-size:11px;color:var(--muted)">تاريخ الاستحقاق</label>
-    <input id="ivDue" type="date" value="${today()}">
-    <button class="btn" style="margin-bottom:0" onclick="addInv()">إنشاء الفاتورة</button>
-  </div>`:""}
-  ${!D.inv.length?`<div class="card"><div class="empty">لا توجد فواتير — أنشئ أول فاتورة.</div></div>`:""}
-  ${D.inv.map(i=>{
-    const overdue = i.status==="unpaid" && i.due < today();
-    const acc = i.status==="paid"?"accent-green": overdue?"accent-red":"accent-brass";
-    return `<div class="card ${acc}">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div style="font-size:11px;color:var(--muted)">${esc(i.num)}</div>
-          <div style="font-weight:700">${esc(i.client)}</div>
-          ${i.desc?`<div style="font-size:12px;color:var(--ink2)">${esc(i.desc)}</div>`:""}
-          <div style="font-size:11px;margin-top:4px;color:${overdue?'var(--red)':'var(--muted)'}">الاستحقاق: ${esc(i.due)} ${overdue?"· متأخرة":""}</div>
-        </div>
-        <div style="text-align:left">
-          <div style="font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">${fmt(i.amount)} ر.س</div>
-          <div style="font-size:11px;font-weight:700" class="${i.status==='paid'?'green':'brassc'}">${i.status==="paid"?"مسددة":"غير مسددة"}</div>
-        </div>
-      </div>
-      <div class="flexrow">
-        <button class="btn-sm" style="background:${i.status==='paid'?'#fff':'var(--green)'};color:${i.status==='paid'?'var(--ink)':'#fff'};border:1px solid ${i.status==='paid'?'var(--line)':'var(--green)'}" onclick="toggleInv('${i.id}')">${i.status==="paid"?"إعادة كغير مسددة":"تحديد كمسددة"}</button>
-        <button class="btn-sm" style="background:#fff;color:var(--red);border:1px solid var(--line)" onclick="delInv('${i.id}')">حذف</button>
-      </div>
-    </div>`;
-  }).join("")}`;
+// ─── التقويم المالي ───
+function itemsOn(ds){
+  return { tx: D.tx.filter(t=>t.date===ds), cm: D.commit.filter(c=>c.date===ds) };
 }
-function addInv(){
-  const client = document.getElementById("ivClient").value.trim();
-  const amt = +document.getElementById("ivAmt").value;
-  if(!client || !amt || amt<=0) return;
-  D.inv.unshift({
-    id: Date.now()+"", num: "INV-"+String(D.inv.length+1).padStart(3,"0"),
-    client, desc: document.getElementById("ivDesc").value.trim(),
-    amount: amt, due: document.getElementById("ivDue").value || today(), status:"unpaid",
-  });
-  save(); invFormOpen=false; render();
+function vCal(){
+  const first = new Date(calY, calM, 1).getDay();
+  const dim = new Date(calY, calM+1, 0).getDate();
+  const tds = today();
+  let cells = "";
+  for(let i=0;i<first;i++) cells += '<div class="cal-d off"></div>';
+  for(let d=1; d<=dim; d++){
+    const ds = calY+"-"+String(calM+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
+    const it = itemsOn(ds);
+    const hasIn = it.tx.some(t=>t.type==="in")||it.cm.some(c=>c.type==="in");
+    const hasOut = it.tx.some(t=>t.type==="out")||it.cm.some(c=>c.type==="out");
+    cells += '<div class="cal-d'+(ds===tds?" today":"")+(ds===calSel?" sel":"")+'" onclick="selDay(\''+ds+'\')">'+d+
+      '<div class="cal-dots">'+(hasIn?'<span style="background:var(--green)"></span>':"")+(hasOut?'<span style="background:var(--red)"></span>':"")+'</div></div>';
+  }
+  let panel = "";
+  if(calSel){
+    const it = itemsOn(calSel);
+    panel = '<div class="card"><div class="sec-title">يوم '+esc(calSel)+'</div>'+
+      (it.tx.length? '<div class="muted" style="margin-bottom:4px">الحركات المسجلة:</div>'+it.tx.map(t=>rowHtml(t,false)).join("") : "")+
+      (it.cm.length? '<div class="muted" style="margin:8px 0 4px">الالتزامات:</div>'+it.cm.map(c=>
+        '<div class="row"><div class="dot" style="background:'+(c.type==="in"?"var(--green)":"var(--red)")+'"></div>'+
+        '<div class="info"><div class="t1">'+esc(c.title)+'</div><div class="t2">'+(c.type==="in"?"دخل متوقع":"مصروف متوقع")+(c.remind?' · ⏰ '+fmtDT(c.remind):"")+'</div></div>'+
+        '<div class="amt">'+fmt(c.amount)+'</div>'+
+        '<button class="icbtn" title="تحويل لحركة" onclick="cmToTx(\''+c.id+'\')">✓</button>'+
+        '<button class="icbtn" onclick="delCm(\''+c.id+'\')">✕</button></div>').join("") : "")+
+      (!it.tx.length && !it.cm.length ? '<div class="muted">لا يوجد شيء في هذا اليوم.</div>' : "")+
+      '<button class="btn" style="margin:12px 0 0" onclick="cmFormOpen=!cmFormOpen;render()">'+(cmFormOpen?"إغلاق":"＋ إضافة التزام في هذا اليوم")+'</button>'+
+      (cmFormOpen? '<div style="margin-top:10px"><div class="seg">'+
+        '<button class="'+(cmType==="out"?"on-out":"")+'" onclick="cmType=\'out\';render()">مصروف متوقع</button>'+
+        '<button class="'+(cmType==="in"?"on-in":"")+'" onclick="cmType=\'in\';render()">دخل متوقع</button></div>'+
+        '<input id="cmTitle" placeholder="الوصف (مثال: قسط السيارة، دفعة مشروع)">'+
+        '<input id="cmAmt" type="number" inputmode="decimal" placeholder="المبلغ (ر.س)">'+
+        '<label style="font-size:11px;color:var(--muted)">منبه (اختياري)</label>'+
+        '<input id="cmRem" type="datetime-local">'+
+        '<button class="btn" style="margin-bottom:0" onclick="addCm()">حفظ الالتزام</button></div>' : "")+
+      '</div>';
+  }
+  return '<div class="card"><div class="cal-head">'+
+    '<button onclick="calShift(1)">‹</button>'+
+    '<div style="font-weight:700">'+MONTHS[calM]+' '+calY+'</div>'+
+    '<button onclick="calShift(-1)">›</button></div>'+
+    '<div class="cal-grid">'+DAYS.map(d=>'<div class="cal-dh">'+d+'</div>').join("")+cells+'</div>'+
+    '<div class="legend" style="margin-top:8px"><span><span class="sw" style="background:var(--green)"></span>دخل</span><span><span class="sw" style="background:var(--red)"></span>مصروف</span></div></div>'+panel;
 }
-function toggleInv(id){ D.inv = D.inv.map(i=> i.id===id ? {...i, status: i.status==="paid"?"unpaid":"paid"} : i); save(); render(); }
-function delInv(id){ D.inv = D.inv.filter(i=>i.id!==id); save(); render(); }
+function calShift(dir){ calM+=dir; if(calM<0){calM=11;calY--;} if(calM>11){calM=0;calY++;} calSel=null; cmFormOpen=false; render(); }
+function selDay(ds){ calSel = calSel===ds? null : ds; cmFormOpen=false; render(); }
+async function addCm(){
+  const title = document.getElementById("cmTitle").value.trim();
+  const amt = +document.getElementById("cmAmt").value;
+  const rem = document.getElementById("cmRem").value;
+  if(!title || !amt || amt<=0) return;
+  if(rem) await askNotif();
+  D.commit.push({ id:uid(), type:cmType, title, amount:amt, date:calSel, remind:rem||"" });
+  save(); cmFormOpen=false; render();
+}
+function delCm(id){ D.commit = D.commit.filter(c=>c.id!==id); save(); render(); }
+function cmToTx(id){
+  const c = D.commit.find(x=>x.id===id); if(!c) return;
+  D.tx.unshift({ id:uid(), type:c.type, amount:c.amount, cat:"أخرى", date:c.date, note:c.title });
+  D.commit = D.commit.filter(x=>x.id!==id);
+  save(); render(); toast("تم تسجيلها كحركة فعلية");
+}
 
-// ─── فئات الدخل ───
+// ─── الأهداف ───
+function yearGoals(){ if(!D.goals[goalsYear]) D.goals[goalsYear]=[]; return D.goals[goalsYear]; }
+function newGoal(){ return { id:uid(), title:"", date:"", remind:"", hidden:false, done:false, open:false, dateOpen:false, imgs:[], imgOpen:false, tasks:[] }; }
+function findGoal(gid){ return yearGoals().find(g=>g.id===gid); }
+function findTask(gid,tid){ const g=findGoal(gid); return g? (g.tasks||[]).find(t=>t.id===tid) : null; }
+
+function vGoals(){
+  const arr = yearGoals();
+  if(arr.length===0){ arr.push(newGoal()); save(); }
+  return '<div class="yearnav">'+
+    '<button onclick="goalsYear--;render()">‹</button>'+
+    '<div class="yt">'+goalsYear+'</div>'+
+    '<button onclick="goalsYear++;render()">›</button></div>'+
+    '<button class="btn" onclick="addGoal()">＋ هدف جديد</button>'+
+    arr.map((g,i)=>{
+      const meta = [];
+      if(g.date) meta.push("📅 "+g.date);
+      if(g.remind) meta.push("⏰ "+fmtDT(g.remind));
+      return '<div class="goal'+(g.hidden?" hiddenit":"")+(g.done?" doneit":"")+'">'+
+      '<div class="g-head">'+
+        '<div class="ordcol"><button onclick="mvGoal('+i+',-1)">▲</button><button onclick="mvGoal('+i+',1)">▼</button></div>'+
+        '<input class="ttl" value="'+esc(g.title)+'" placeholder="اكتب الهدف هنا..." onchange="setGT(\''+g.id+'\',this.value)">'+
+        '<button class="icbtn" title="مكتمل؟" style="color:'+(g.done?'var(--green)':'var(--muted)')+'" onclick="tgG(\''+g.id+'\',\'done\')">'+(g.done?'☑':'☐')+'</button>'+
+        '<button class="icbtn" title="فتح صفحة الهدف" onclick="goalPage=\''+g.id+'\';render()">⤢</button>'+
+        '<button class="icbtn" title="صور" onclick="tgG(\''+g.id+'\',\'imgOpen\')">🖼</button>'+
+        '<button class="icbtn" title="التاريخ والمنبه" onclick="tgG(\''+g.id+'\',\'dateOpen\')">📅</button>'+
+        '<button class="icbtn" title="إخفاء" onclick="tgG(\''+g.id+'\',\'hidden\')">'+(g.hidden?"🚫":"👁")+'</button>'+
+        '<button class="icbtn" title="المهام" onclick="tgG(\''+g.id+'\',\'open\')">'+(g.open?"▲":"▼")+'</button>'+
+        '<button class="icbtn" onclick="delGoal(\''+g.id+'\')">🗑</button>'+
+      '</div>'+
+      (meta.length? '<div class="meta-line">'+meta.join("  ")+'</div>' : "")+
+      (g.dateOpen? '<div class="g-sub" style="padding-top:10px">'+
+        '<label style="font-size:11px;color:var(--muted)">ربط الهدف بتاريخ</label>'+
+        '<input type="date" value="'+esc(g.date)+'" onchange="setGD(\''+g.id+'\',this.value)">'+
+        '<label style="font-size:11px;color:var(--muted)">منبه تذكير (وقت وتاريخ)</label>'+
+        '<input type="datetime-local" value="'+esc(g.remind)+'" onchange="setGR(\''+g.id+'\',this.value)">'+
+        '</div>' : "")+
+      (g.imgOpen? '<div class="g-sub" style="padding-top:10px">'+imgsHtml(g,null)+'</div>' : "")+
+      (g.open? '<div class="g-sub">'+
+        (g.tasks||[]).map((t,ti)=>vTask(g,t,ti)).join("")+
+        '<div class="addline"><input id="nt-'+g.id+'" placeholder="مهمة جديدة لتحقيق الهدف..."><button onclick="addTask(\''+g.id+'\')">＋</button></div>'+
+        '</div>' : "")+
+      '</div>';
+    }).join("");
+}
+function vTask(g,t,ti){
+  const meta=[]; if(t.remind) meta.push("⏰ "+fmtDT(t.remind));
+  return '<div class="task'+(t.hidden?" hiddenit":"")+'">'+
+    '<div class="t-head">'+
+      '<div class="ordcol"><button onclick="mvTask(\''+g.id+'\','+ti+',-1)">▲</button><button onclick="mvTask(\''+g.id+'\','+ti+',1)">▼</button></div>'+
+      '<input class="ttl" value="'+esc(t.title)+'" placeholder="اكتب المهمة..." onchange="setTT(\''+g.id+'\',\''+t.id+'\',this.value)">'+
+      '<button class="icbtn" title="منبه" onclick="tgT(\''+g.id+'\',\''+t.id+'\',\'remOpen\')">⏰</button>'+
+      '<button class="icbtn" title="صور" onclick="tgT(\''+g.id+'\',\''+t.id+'\',\'imgOpen\')">🖼</button>'+
+      '<button class="icbtn" title="إخفاء" onclick="tgT(\''+g.id+'\',\''+t.id+'\',\'hidden\')">'+(t.hidden?"🚫":"👁")+'</button>'+
+      '<button class="icbtn" title="الخطوات" onclick="tgT(\''+g.id+'\',\''+t.id+'\',\'open\')">'+(t.open?"▲":"▼")+'</button>'+
+      '<button class="icbtn" onclick="delTask(\''+g.id+'\',\''+t.id+'\')">🗑</button>'+
+    '</div>'+
+    (meta.length? '<div style="font-size:11px;color:var(--muted);padding:2px 6px">'+meta.join(" ")+'</div>':"")+
+    (t.remOpen? '<div style="padding:6px"><label style="font-size:11px;color:var(--muted)">منبه المهمة</label><input type="datetime-local" value="'+esc(t.remind)+'" onchange="setTR(\''+g.id+'\',\''+t.id+'\',this.value)"></div>' : "")+
+    (t.imgOpen? '<div style="padding:6px">'+imgsHtml(g,t)+'</div>' : "")+
+    (t.open? '<div style="padding:4px 6px">'+
+      (t.steps||[]).map(s=>'<div class="step'+(s.done?" done":"")+'"><input type="checkbox" '+(s.done?"checked":"")+' onchange="tgStep(\''+g.id+'\',\''+t.id+'\',\''+s.id+'\')"><input class="ttl" value="'+esc(s.title)+'" onchange="setST(\''+g.id+'\',\''+t.id+'\',\''+s.id+'\',this.value)"><button class="icbtn" style="font-size:13px" onclick="delStep(\''+g.id+'\',\''+t.id+'\',\''+s.id+'\')">✕</button></div>').join("")+
+      '<div class="addline"><input id="ns-'+t.id+'" placeholder="خطوة داخل المهمة..."><button onclick="addStep(\''+g.id+'\',\''+t.id+'\')">＋</button></div>'+
+      '</div>' : "")+
+  '</div>';
+}
+function vGoalPage(){
+  const g = findGoal(goalPage);
+  if(!g){ goalPage=null; return vGoals(); }
+  const meta=[]; if(g.date) meta.push("📅 "+g.date); if(g.remind) meta.push("⏰ "+fmtDT(g.remind));
+  const tasks = g.tasks||[];
+  return '<button class="btn" style="background:#fff;color:var(--ink);border:1px solid var(--line)" onclick="goalPage=null;render()">◀ رجوع لقائمة الأهداف</button>'+
+    '<div class="card accent-brass">'+
+    '<div style="display:flex;align-items:center;gap:8px">'+
+    '<button class="icbtn" style="font-size:20px;color:'+(g.done?'var(--green)':'var(--muted)')+'" onclick="tgG(\''+g.id+'\',\'done\')">'+(g.done?'☑':'☐')+'</button>'+
+    '<input class="ttl" style="flex:1;border:none;background:none;font-size:17px;font-weight:700;font-family:inherit'+(g.done?';text-decoration:line-through;color:var(--green)':'')+'" value="'+esc(g.title)+'" placeholder="اكتب الهدف..." onchange="setGT(\''+g.id+'\',this.value)">'+
+    '</div>'+
+    (meta.length? '<div class="meta-line" style="padding:6px 0 0">'+meta.join("  ")+'</div>':"")+
+    '<div class="muted" style="margin-top:6px">عدد المهام: '+tasks.length+'</div>'+
+    '</div>'+
+    '<div class="card"><div class="sec-title">صور الهدف</div>'+imgsHtml(g,null)+'</div>'+
+    '<div class="card"><div class="sec-title">مهام تحقيق الهدف</div>'+
+    tasks.map((t,ti)=>vTask(g,t,ti)).join("")+
+    '<div class="addline"><input id="nt-'+g.id+'" placeholder="مهمة جديدة..."><button onclick="addTask(\''+g.id+'\')">＋</button></div>'+
+    '</div>';
+}
+function addGoal(){ yearGoals().unshift(newGoal()); save(); render(); }
+function delGoal(gid){ D.goals[goalsYear] = yearGoals().filter(g=>g.id!==gid); save(); render(); }
+function setGT(gid,v){ const g=findGoal(gid); if(g){ g.title=v.trim(); save(); } }
+function setGD(gid,v){ const g=findGoal(gid); if(g){ g.date=v; save(); render(); } }
+async function setGR(gid,v){ const g=findGoal(gid); if(g){ g.remind=v; if(v) await askNotif(); save(); render(); } }
+function tgG(gid,prop){ const g=findGoal(gid); if(g){ g[prop]=!g[prop]; save(); render(); } }
+function mvGoal(i,dir){ const a=yearGoals(); const j=i+dir; if(j<0||j>=a.length) return; [a[i],a[j]]=[a[j],a[i]]; save(); render(); }
+function addTask(gid){ const g=findGoal(gid); const inp=document.getElementById("nt-"+gid); const v=inp.value.trim(); if(!g||!v) return; g.tasks=g.tasks||[]; g.tasks.push({id:uid(), title:v, remind:"", hidden:false, open:false, remOpen:false, imgs:[], imgOpen:false, steps:[]}); save(); render(); }
+function delTask(gid,tid){ const g=findGoal(gid); if(g){ g.tasks=g.tasks.filter(t=>t.id!==tid); save(); render(); } }
+function setTT(gid,tid,v){ const t=findTask(gid,tid); if(t){ t.title=v.trim(); save(); } }
+async function setTR(gid,tid,v){ const t=findTask(gid,tid); if(t){ t.remind=v; if(v) await askNotif(); save(); render(); } }
+function tgT(gid,tid,prop){ const t=findTask(gid,tid); if(t){ t[prop]=!t[prop]; save(); render(); } }
+function mvTask(gid,i,dir){ const g=findGoal(gid); if(!g) return; const a=g.tasks; const j=i+dir; if(j<0||j>=a.length) return; [a[i],a[j]]=[a[j],a[i]]; save(); render(); }
+function addStep(gid,tid){ const t=findTask(gid,tid); const inp=document.getElementById("ns-"+tid); const v=inp.value.trim(); if(!t||!v) return; t.steps=t.steps||[]; t.steps.push({id:uid(), title:v, done:false}); save(); render(); }
+function delStep(gid,tid,sid){ const t=findTask(gid,tid); if(t){ t.steps=t.steps.filter(s=>s.id!==sid); save(); render(); } }
+function setST(gid,tid,sid,v){ const t=findTask(gid,tid); const s=t&&t.steps.find(s=>s.id===sid); if(s){ s.title=v.trim(); save(); } }
+function tgStep(gid,tid,sid){ const t=findTask(gid,tid); const s=t&&t.steps.find(s=>s.id===sid); if(s){ s.done=!s.done; save(); render(); } }
+
+// ─── الصور ───
+function imgsHtml(g,t){
+  const arr = t ? (t.imgs = t.imgs||[]) : (g.imgs = g.imgs||[]);
+  const tid = t ? t.id : "";
+  return '<div class="thumbs">'+
+    arr.map((im,i)=>'<img class="thumb" src="'+im+'" onclick="imgView={gid:\''+g.id+'\',tid:\''+tid+'\',idx:'+i+'};render()">').join("")+
+    '<button class="thumb" onclick="pickImg(\''+g.id+'\',\''+tid+'\')">＋</button></div>';
+}
+function pickImg(gid,tid){ imgTarget={gid,tid}; document.getElementById("imgIn").click(); }
+function compressImg(file){ return new Promise(res=>{
+  const img = new Image();
+  img.onload = ()=>{ const mx=800; let w=img.width, h=img.height; const s=Math.min(1, mx/Math.max(w,h)); w=Math.round(w*s); h=Math.round(h*s);
+    const c=document.createElement("canvas"); c.width=w; c.height=h; c.getContext("2d").drawImage(img,0,0,w,h);
+    res(c.toDataURL("image/jpeg",0.7)); };
+  img.src = URL.createObjectURL(file);
+}); }
+document.getElementById("imgIn").addEventListener("change", async e=>{
+  const f = e.target.files[0]; e.target.value="";
+  if(!f || !imgTarget) return;
+  const data = await compressImg(f);
+  const holder = imgTarget.tid ? findTask(imgTarget.gid, imgTarget.tid) : findGoal(imgTarget.gid);
+  if(!holder) return;
+  holder.imgs = holder.imgs||[];
+  holder.imgs.push(data);
+  if(!save()) holder.imgs.pop();
+  render();
+});
+function imgHolder(){ return imgView.tid ? findTask(imgView.gid, imgView.tid) : findGoal(imgView.gid); }
+function delImg(){ const h=imgHolder(); if(h){ h.imgs.splice(imgView.idx,1); save(); } imgView=null; render(); }
+function viewerHtml(){
+  const h = imgHolder(); if(!h || !h.imgs[imgView.idx]){ imgView=null; return ""; }
+  return '<div class="overlay" onclick="imgView=null;render()"><div class="card" onclick="event.stopPropagation()" style="padding:8px">'+
+    '<img src="'+h.imgs[imgView.idx]+'" style="width:100%;border-radius:8px;display:block">'+
+    '<div class="flexrow"><button class="btn-sm" style="color:var(--red)" onclick="delImg()">حذف الصورة</button>'+
+    '<button class="btn-sm" onclick="imgView=null;render()">إغلاق</button></div></div></div>';
+}
+// ─── الخريطة الذهنية ───
+function vMap(){
+  const arr = yearGoals().filter(g=>!g.hidden && (g.title||"").trim());
+  let detail = "";
+  if(mapDetail){
+    const [gid, tid] = mapDetail.split("|");
+    const g = findGoal(gid);
+    const t = tid? findTask(gid,tid) : null;
+    const it = t || g;
+    if(it){
+      const steps = t? (t.steps||[]) : [];
+      detail = '<div class="overlay" onclick="mapDetail=null;render()"><div class="card" onclick="event.stopPropagation()">'+
+        '<div class="sec-title">'+(t?"تفاصيل المهمة":"تفاصيل الهدف")+'</div>'+
+        '<div style="font-weight:700;font-size:16px;margin-bottom:8px">'+esc(it.title||"بدون عنوان")+'</div>'+
+        (!t && g.date? '<div class="muted">📅 مرتبط بتاريخ: '+esc(g.date)+'</div>' : "")+
+        (it.remind? '<div class="muted">⏰ منبه: '+fmtDT(it.remind)+'</div>' : "")+
+        (!t? '<div class="muted">عدد المهام: '+(g.tasks||[]).filter(x=>!x.hidden).length+'</div>' : "")+
+        (t? '<div class="muted">الخطوات: '+steps.filter(s=>s.done).length+' منجزة من '+steps.length+'</div>' : "")+
+        (t && steps.length? '<div style="margin-top:8px">'+steps.map(s=>'<div class="step'+(s.done?" done":"")+'"><span>'+(s.done?"✓":"○")+'</span><span class="ttl">'+esc(s.title)+'</span></div>').join("")+'</div>' : "")+
+        '<button class="btn" style="margin:14px 0 0" onclick="mapDetail=null;render()">إغلاق</button>'+
+        '</div></div>';
+    }
+  }
+  return '<div class="yearnav">'+
+    '<button onclick="goalsYear--;render()">‹</button><div class="yt">'+goalsYear+'</div><button onclick="goalsYear++;render()">›</button></div>'+
+    '<div class="mm-root">أهداف العام '+goalsYear+'</div>'+
+    (arr.length? '<div class="mm-branch">'+arr.map(g=>{
+      const tasks = (g.tasks||[]).filter(t=>!t.hidden && (t.title||"").trim());
+      return '<div class="mm-wrap"><div class="mm-goal" onclick="mapDetail=\''+g.id+'\';render()">'+(g.done?'✓ ':'')+esc(g.title)+'</div>'+
+        (tasks.length? '<div class="mm-tasks">'+tasks.map(t=>'<div class="mm-task" onclick="mapDetail=\''+g.id+'|'+t.id+'\';render()">'+esc(t.title)+'</div>').join("")+'</div>' : "")+
+        '</div>';
+    }).join("")+'</div>' : '<div class="empty">لا توجد أهداف ظاهرة لهذا العام — أضفها من «الأساسية» أو أظهر المخفي منها.</div>')+
+    detail;
+}
+
+// ─── إدارة الفئات ───
 function vCats(){
   const active = D.projects.filter(p=>p.status==="active");
-  return `
-  <div class="card">
-    <div class="sec-title">إضافة فئة دخل جديدة</div>
-    <input id="catName" placeholder="اسم الفئة (مثال: إيجار عقار، استشارات)">
-    <button class="btn" style="margin-bottom:0" onclick="addCat()">إضافة الفئة</button>
-  </div>
-  <div class="card">
-    <div class="sec-title">فئاتك المخصصة</div>
-    ${D.incCats.length? D.incCats.map(c=>`
-      <div class="row" style="justify-content:space-between">
-        <span style="font-size:14px;font-weight:600">${esc(c)}</span>
-        <button class="del" style="color:var(--red);font-size:13px" onclick="delCat('${esc(c)}')">حذف</button>
-      </div>`).join("") : `<div class="muted">لا توجد فئات مخصصة بعد.</div>`}
-  </div>
-  <div class="card accent-brass">
-    <div class="sec-title">فئات من المشاريع الفعالة</div>
-    ${active.length? active.map(p=>`<div class="row" style="font-size:14px;font-weight:600">مشروع: ${esc(p.name)} <span style="font-size:11px" class="green">· فعال</span></div>`).join("") : `<div class="muted">لا توجد مشاريع فعالة — فعّل مشروعًا من قسم «المشاريع» وسيظهر هنا كفئة دخل تلقائيًا.</div>`}
-    <div style="font-size:11px;color:var(--muted);margin-top:8px">الفئات الأساسية (${CATS_INC_BASE.join("، ")}) موجودة دائمًا عند تسجيل الدخل.</div>
-  </div>`;
+  const list = (arr, delFn, title, addFn, inputId, ph) =>
+    '<div class="card"><div class="sec-title">'+title+'</div>'+
+    '<div class="addline" style="margin:0 0 10px"><input id="'+inputId+'" placeholder="'+ph+'"><button onclick="'+addFn+'()">＋</button></div>'+
+    (arr.length? arr.map(c=>'<div class="row" style="justify-content:space-between"><span style="font-size:14px;font-weight:600">'+esc(c)+'</span><button class="icbtn" style="color:var(--red);font-size:13px" onclick="'+delFn+'(\''+esc(c)+'\')">حذف</button></div>').join("") : '<div class="muted">القائمة فارغة.</div>')+
+    '</div>';
+  return list(D.incList, "delInc", "فئات الدخل", "addInc", "incName", "فئة دخل جديدة (مثال: إيجار عقار)")+
+    list(D.expList, "delExp", "فئات المصروف", "addExp", "expName", "فئة مصروف جديدة (مثال: صيانة المتحف)")+
+    '<div class="card accent-brass"><div class="sec-title">فئات من المشاريع الفعالة</div>'+
+    (active.length? active.map(p=>'<div class="row" style="font-size:14px;font-weight:600">مشروع: '+esc(p.name)+' <span style="font-size:11px" class="green">· فعال</span></div>').join("") : '<div class="muted">لا توجد مشاريع فعالة — فعّل مشروعًا من «المشاريع» وسيظهر هنا كفئة دخل تلقائيًا.</div>')+
+    '</div>';
 }
-function addCat(){
-  const n = document.getElementById("catName").value.trim();
-  if(!n || D.incCats.includes(n)) return;
-  D.incCats.push(n); save(); render();
-}
-function delCat(n){ D.incCats = D.incCats.filter(c=>c!==n); save(); render(); }
+function addInc(){ const v=document.getElementById("incName").value.trim(); if(!v||D.incList.includes(v)) return; D.incList.push(v); save(); render(); }
+function delInc(n){ if(D.incList.length<=1){ toast("لازم تبقى فئة واحدة على الأقل"); return; } D.incList=D.incList.filter(c=>c!==n); save(); render(); }
+function addExp(){ const v=document.getElementById("expName").value.trim(); if(!v||D.expList.includes(v)) return; D.expList.push(v); save(); render(); }
+function delExp(n){ if(D.expList.length<=1){ toast("لازم تبقى فئة واحدة على الأقل"); return; } D.expList=D.expList.filter(c=>c!==n); save(); render(); }
 
 // ─── المشاريع ───
 function vProj(){
-  return `
-  <div class="card">
-    <div class="sec-title">مشروع مستقبلي جديد</div>
-    <input id="prName" placeholder="اسم المشروع">
-    <input id="prDesc" placeholder="وصف مختصر (اختياري)">
-    <button class="btn" style="margin-bottom:0" onclick="addProj()">إضافة المشروع</button>
-  </div>
-  ${!D.projects.length?`<div class="card"><div class="empty">لا توجد مشاريع بعد.</div></div>`:""}
-  ${D.projects.map(p=>`
-  <div class="card ${p.status==='active'?'accent-green':'accent-muted'}">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div>
-        <div style="font-weight:700">${esc(p.name)}</div>
-        ${p.desc?`<div style="font-size:12px;color:var(--ink2)">${esc(p.desc)}</div>`:""}
-        <div style="font-size:11px;color:var(--muted);margin-top:4px">أضيف في ${esc(p.created)}</div>
-      </div>
-      <div style="font-size:11px;font-weight:700;white-space:nowrap" class="${p.status==='active'?'green':''}" ${p.status!=='active'?'style="color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap"':''}>${p.status==="active"?"فعال":"مستقبلي"}</div>
-    </div>
-    ${p.status==="active"?`<div style="font-size:11px;margin-top:6px" class="green">✓ يظهر الآن كفئة دخل باسم «مشروع: ${esc(p.name)}»</div>`:""}
-    <div class="flexrow">
-      <button class="btn-sm" style="background:${p.status==='active'?'#fff':'var(--green)'};color:${p.status==='active'?'var(--ink)':'#fff'};border:1px solid ${p.status==='active'?'var(--line)':'var(--green)'}" onclick="toggleProj('${p.id}')">${p.status==="active"?"إيقاف التفعيل":"تفعيل المشروع"}</button>
-      <button class="btn-sm" style="background:#fff;color:var(--red);border:1px solid var(--line)" onclick="delProj('${p.id}')">حذف</button>
-    </div>
-  </div>`).join("")}`;
+  return '<div class="card"><div class="sec-title">مشروع مستقبلي جديد</div>'+
+    '<input id="prName" placeholder="اسم المشروع">'+
+    '<input id="prDesc" placeholder="وصف مختصر (اختياري)">'+
+    '<button class="btn" style="margin-bottom:0" onclick="addProj()">إضافة المشروع</button></div>'+
+    (!D.projects.length? '<div class="card"><div class="empty">لا توجد مشاريع بعد.</div></div>' : "")+
+    D.projects.map(p=>'<div class="card" style="border-inline-start:4px solid '+(p.status==="active"?"var(--green)":"var(--muted)")+'">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start"><div>'+
+      '<div style="font-weight:700">'+esc(p.name)+'</div>'+
+      (p.desc? '<div style="font-size:12px;color:var(--ink2)">'+esc(p.desc)+'</div>' : "")+
+      '<div style="font-size:11px;color:var(--muted);margin-top:4px">أضيف في '+esc(p.created)+'</div></div>'+
+      '<div style="font-size:11px;font-weight:700;white-space:nowrap;color:'+(p.status==="active"?"var(--green)":"var(--muted)")+'">'+(p.status==="active"?"فعال":"مستقبلي")+'</div></div>'+
+      (p.status==="active"? '<div style="font-size:11px;margin-top:6px" class="green">✓ يظهر الآن كفئة دخل باسم «مشروع: '+esc(p.name)+'»</div>' : "")+
+      '<div class="flexrow">'+
+      '<button class="btn-sm" style="background:'+(p.status==="active"?"#fff":"var(--green)")+';color:'+(p.status==="active"?"var(--ink)":"#fff")+';border-color:'+(p.status==="active"?"var(--line)":"var(--green)")+'" onclick="toggleProj(\''+p.id+'\')">'+(p.status==="active"?"إيقاف التفعيل":"تفعيل المشروع")+'</button>'+
+      '<button class="btn-sm" style="color:var(--red)" onclick="delProj(\''+p.id+'\')">حذف</button>'+
+      '</div></div>').join("");
 }
-function addProj(){
-  const n = document.getElementById("prName").value.trim();
-  if(!n) return;
-  D.projects.unshift({ id: Date.now()+"", name:n, desc: document.getElementById("prDesc").value.trim(), status:"planned", created: today() });
+function addProj(){ const n=document.getElementById("prName").value.trim(); if(!n) return; D.projects.unshift({id:uid(), name:n, desc:document.getElementById("prDesc").value.trim(), status:"planned", created:today()}); save(); render(); }
+function toggleProj(id){ D.projects=D.projects.map(p=> p.id===id? {...p, status:p.status==="active"?"planned":"active"} : p); save(); render(); }
+function delProj(id){ D.projects=D.projects.filter(p=>p.id!==id); save(); render(); }
+
+// ─── الأصول ───
+function vAssets(){
+  const total = D.assets.reduce((s,a)=>s+ +a.value, 0);
+  return '<button class="btn" style="background:#fff;color:var(--ink);border:1px solid var(--line)" onclick="go(\'dash\')">◀ رجوع للوحة</button>'+
+    '<div class="card accent-brass"><div class="stats"><div class="stat"><div class="lbl">إجمالي قيمة الأصول</div><div class="val brassc" style="font-size:22px">'+fmt(total)+'</div><div class="cur">ر.س</div></div></div></div>'+
+    '<div class="card"><div class="sec-title">إضافة أصل</div>'+
+    '<input id="asName" placeholder="اسم الأصل (مثال: سيارة، فضة، مقتنيات)">'+
+    '<input id="asVal" type="number" inputmode="decimal" placeholder="القيمة التقديرية (ر.س)">'+
+    '<input id="asNote" placeholder="ملاحظة (اختياري)">'+
+    '<button class="btn" style="margin-bottom:0" onclick="addAsset()">حفظ الأصل</button></div>'+
+    '<div class="card">'+
+    (D.assets.length? D.assets.map(a=>'<div class="row"><div class="dot" style="background:var(--brass)"></div>'+
+      '<div class="info"><div class="t1">'+esc(a.name)+'</div><div class="t2">'+(a.note?esc(a.note)+' · ':'')+'أضيف '+esc(a.date)+'</div></div>'+
+      '<div class="amt">'+fmt(a.value)+'</div>'+
+      '<button class="icbtn" onclick="delAsset(\''+a.id+'\')">🗑</button></div>').join("") : '<div class="empty">لا توجد أصول مسجلة بعد.</div>')+
+    '</div>';
+}
+function addAsset(){
+  const name = document.getElementById("asName").value.trim();
+  const val = +document.getElementById("asVal").value;
+  if(!name || !val || val<=0) return;
+  D.assets.unshift({ id:uid(), name, value:val, note:document.getElementById("asNote").value.trim(), date:today() });
   save(); render();
 }
-function toggleProj(id){ D.projects = D.projects.map(p=> p.id===id ? {...p, status: p.status==="active"?"planned":"active"} : p); save(); render(); }
-function delProj(id){ D.projects = D.projects.filter(p=>p.id!==id); save(); render(); }
+function delAsset(id){ D.assets = D.assets.filter(a=>a.id!==id); save(); render(); }
+
+// ─── الديون ───
+function vDebts(){
+  const open = D.debts.filter(d=>!d.paid);
+  const total = open.reduce((s,d)=>s+ +d.amount, 0);
+  return '<button class="btn" style="background:#fff;color:var(--ink);border:1px solid var(--line)" onclick="go(\'dash\')">◀ رجوع للوحة</button>'+
+    '<div class="card" style="border-inline-start:4px solid var(--red)"><div class="stats"><div class="stat"><div class="lbl">إجمالي الديون غير المسددة</div><div class="val red" style="font-size:22px">'+fmt(total)+'</div><div class="cur">ر.س · '+open.length+' دين</div></div></div></div>'+
+    '<div class="card"><div class="sec-title">إضافة دين</div>'+
+    '<input id="dbName" placeholder="اسم الشخص أو الجهة الدائنة">'+
+    '<input id="dbAmt" type="number" inputmode="decimal" placeholder="قيمة الدين (ر.س)">'+
+    '<label style="font-size:11px;color:var(--muted)">تاريخ السداد</label>'+
+    '<input id="dbDue" type="date" value="'+today()+'">'+
+    '<input id="dbNote" placeholder="ملاحظة (اختياري)">'+
+    '<button class="btn" style="margin-bottom:0" onclick="addDebt()">حفظ الدين</button></div>'+
+    (D.debts.length? D.debts.map(d=>{
+      const overdue = !d.paid && d.due < today();
+      return '<div class="card" style="border-inline-start:4px solid '+(d.paid?'var(--green)':overdue?'var(--red)':'var(--brass)')+'">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start"><div>'+
+      '<div style="font-weight:700'+(d.paid?';text-decoration:line-through;color:var(--green)':'')+'">'+esc(d.name)+'</div>'+
+      (d.note? '<div style="font-size:12px;color:var(--ink2)">'+esc(d.note)+'</div>':'')+
+      '<div style="font-size:11px;margin-top:4px;color:'+(overdue?'var(--red)':'var(--muted)')+'">السداد: '+esc(d.due)+(overdue?' · متأخر':'')+(d.paid?' · مسدد ✓':'')+'</div></div>'+
+      '<div style="font-weight:700;font-size:16px;font-variant-numeric:tabular-nums">'+fmt(d.amount)+' ر.س</div></div>'+
+      '<div class="flexrow">'+
+      '<button class="btn-sm" style="background:'+(d.paid?'#fff':'var(--green)')+';color:'+(d.paid?'var(--ink)':'#fff')+';border-color:'+(d.paid?'var(--line)':'var(--green)')+'" onclick="togDebt(\''+d.id+'\')">'+(d.paid?'إعادة كغير مسدد':'تحديد كمسدد')+'</button>'+
+      '<button class="btn-sm" style="color:var(--red)" onclick="delDebt(\''+d.id+'\')">🗑 حذف</button>'+
+      '</div></div>';
+    }).join("") : '<div class="card"><div class="empty">لا توجد ديون مسجلة — عساها دائمًا كذلك.</div></div>')+
+    '';
+}
+function addDebt(){
+  const name = document.getElementById("dbName").value.trim();
+  const amt = +document.getElementById("dbAmt").value;
+  const due = document.getElementById("dbDue").value;
+  if(!name || !amt || amt<=0 || !due) return;
+  D.debts.unshift({ id:uid(), name, amount:amt, due, note:document.getElementById("dbNote").value.trim(), paid:false });
+  save(); render();
+}
+function togDebt(id){ D.debts = D.debts.map(d=> d.id===id? {...d, paid:!d.paid} : d); save(); render(); }
+function delDebt(id){ D.debts = D.debts.filter(d=>d.id!==id); save(); render(); }
 
 // ─── التقارير ───
 function vRep(){
-  const now = new Date(), ck = curKey();
+  const ck = curKey();
   const months = [];
   for(let i=5;i>=0;i--){
-    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    const d = new Date(NOW.getFullYear(), NOW.getMonth()-i, 1);
     const key = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
     let inc=0, exp=0;
     D.tx.forEach(t=>{ if((t.date||"").startsWith(key)){ t.type==="in"?inc+=+t.amount:exp+=+t.amount; }});
-    months.push({label: MONTHS[d.getMonth()], inc, exp});
+    months.push({label:MONTHS[d.getMonth()], inc, exp});
   }
   const max = Math.max(1, ...months.flatMap(m=>[m.inc,m.exp]));
-  const brk = (type)=>{
-    const m={};
-    D.tx.forEach(t=>{ if(t.type===type && (t.date||"").startsWith(ck)) m[t.cat]=(m[t.cat]||0)+ +t.amount; });
-    return Object.entries(m).sort((a,b)=>b[1]-a[1]);
-  };
+  const brk = (type)=>{ const m={}; D.tx.forEach(t=>{ if(t.type===type && (t.date||"").startsWith(ck)) m[t.cat]=(m[t.cat]||0)+ +t.amount; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); };
   const incB = brk("in"), expB = brk("out");
-  const incMax = Math.max(1, ...incB.map(([,v])=>v));
-  const expMax = Math.max(1, ...expB.map(([,v])=>v));
-  const mn = MONTHS[now.getMonth()];
-  const bars = (arr, maxV, color) => arr.map(([cat,val])=>`
-    <div style="margin-bottom:10px">
-      <div class="brk-row"><span>${esc(cat)}</span><span style="font-weight:700;font-variant-numeric:tabular-nums">${fmt(val)} ر.س</span></div>
-      <div class="bar-wrap"><div class="bar" style="width:${(val/maxV)*100}%;background:${color}"></div></div>
-    </div>`).join("");
-  return `
-  <div class="card">
-    <div class="sec-title">الدخل والمصروف — آخر ٦ أشهر</div>
-    <div class="chart">
-      ${months.map(m=>`
-      <div class="col">
-        <div class="bars">
-          <div class="b" style="height:${(m.inc/max)*100}%;min-height:${m.inc?3:0}px;background:var(--green)"></div>
-          <div class="b" style="height:${(m.exp/max)*100}%;min-height:${m.exp?3:0}px;background:var(--red)"></div>
-        </div>
-        <div class="m">${m.label}</div>
-      </div>`).join("")}
-    </div>
-    <div class="legend"><span><span class="sw" style="background:var(--green)"></span>دخل</span><span><span class="sw" style="background:var(--red)"></span>مصروف</span></div>
-  </div>
-  <div class="card">
-    <div class="sec-title">دخل ${mn} حسب المصدر</div>
-    ${incB.length? bars(incB, incMax, "var(--green)") : `<div class="muted">لا يوجد دخل مسجل هذا الشهر.</div>`}
-  </div>
-  <div class="card">
-    <div class="sec-title">مصاريف ${mn} حسب الفئة</div>
-    ${expB.length? bars(expB, expMax, "var(--brass)") : `<div class="muted">لا توجد مصاريف هذا الشهر.</div>`}
-  </div>`;
+  const bars = (arr, color) => { const mx=Math.max(1,...arr.map(([,v])=>v)); return arr.map(([cat,val])=>
+    '<div style="margin-bottom:10px"><div class="brk-row"><span>'+esc(cat)+'</span><span style="font-weight:700;font-variant-numeric:tabular-nums">'+fmt(val)+' ر.س</span></div>'+
+    '<div class="bar-wrap"><div class="bar" style="width:'+((val/mx)*100)+'%;background:'+color+'"></div></div></div>').join(""); };
+  const mn = MONTHS[NOW.getMonth()];
+  return '<button class="btn" onclick="exportCSV()">⬇ تصدير التقرير إلى Excel</button>'+
+  '<div class="card"><div class="sec-title">الدخل والمصروف — آخر ٦ أشهر</div><div class="chart">'+
+    months.map(m=>'<div class="col"><div class="bars">'+
+      '<div class="b" style="height:'+((m.inc/max)*100)+'%;min-height:'+(m.inc?3:0)+'px;background:var(--green)"></div>'+
+      '<div class="b" style="height:'+((m.exp/max)*100)+'%;min-height:'+(m.exp?3:0)+'px;background:var(--red)"></div>'+
+      '</div><div class="m">'+m.label+'</div></div>').join("")+
+    '</div><div class="legend"><span><span class="sw" style="background:var(--green)"></span>دخل</span><span><span class="sw" style="background:var(--red)"></span>مصروف</span></div></div>'+
+    '<div class="card"><div class="sec-title">دخل '+mn+' حسب المصدر</div>'+(incB.length? bars(incB,"var(--green)") : '<div class="muted">لا يوجد دخل مسجل هذا الشهر.</div>')+'</div>'+
+    '<div class="card"><div class="sec-title">مصاريف '+mn+' حسب الفئة</div>'+(expB.length? bars(expB,"var(--brass)") : '<div class="muted">لا توجد مصاريف هذا الشهر.</div>')+'</div>';
 }
 
+applyRecur();
+function csvCell(v){ v=String(v??""); return '"'+v.replace(/"/g,'""')+'"'; }
+function exportCSV(){
+  const rows = [];
+  const push = arr => rows.push(arr.map(csvCell).join(","));
+  push(["التقرير المالي — نظام الإدارة الشخصي"]); push(["تاريخ التصدير", today()]); push([]);
+  push(["الحركات المالية"]);
+  push(["التاريخ","النوع","الفئة","المبلغ (ر.س)","ملاحظة"]);
+  [...D.tx].sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=> push([t.date, t.type==="in"?"دخل":"مصروف", t.cat, t.amount, t.note||""]));
+  push([]);
+  push(["ملخص آخر 6 أشهر"]); push(["الشهر","الدخل","المصروف","الصافي"]);
+  for(let i=5;i>=0;i--){
+    const d = new Date(NOW.getFullYear(), NOW.getMonth()-i, 1);
+    const key = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+    let inc=0, exp=0;
+    D.tx.forEach(t=>{ if((t.date||"").startsWith(key)){ t.type==="in"?inc+=+t.amount:exp+=+t.amount; }});
+    push([MONTHS[d.getMonth()]+" "+d.getFullYear(), inc, exp, inc-exp]);
+  }
+  push([]);
+  const ck = curKey();
+  const brk = (type)=>{ const m={}; D.tx.forEach(t=>{ if(t.type===type && (t.date||"").startsWith(ck)) m[t.cat]=(m[t.cat]||0)+ +t.amount; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); };
+  push(["دخل الشهر الحالي حسب المصدر"]); push(["الفئة","المبلغ"]);
+  brk("in").forEach(([c,v])=>push([c,v])); push([]);
+  push(["مصاريف الشهر الحالي حسب الفئة"]); push(["الفئة","المبلغ"]);
+  brk("out").forEach(([c,v])=>push([c,v])); push([]);
+  if(D.commit.length){ push(["الالتزامات في التقويم"]); push(["التاريخ","النوع","الوصف","المبلغ"]);
+    [...D.commit].sort((a,b)=>a.date.localeCompare(b.date)).forEach(c=>push([c.date, c.type==="in"?"دخل متوقع":"مصروف متوقع", c.title, c.amount])); }
+  const blob = new Blob(["\uFEFF"+rows.join("\r\n")], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "التقرير-المالي-"+today()+".csv";
+  document.body.appendChild(a); a.click(); a.remove();
+  toast("تم تنزيل التقرير — يفتح مباشرة في Excel");
+}
 render();
+checkReminders();
 if ("serviceWorker" in navigator) { navigator.serviceWorker.register("sw.js").catch(()=>{}); }
 </script>
 </body>
